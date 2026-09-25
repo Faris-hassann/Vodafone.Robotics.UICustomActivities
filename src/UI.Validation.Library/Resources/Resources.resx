@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="Category_UIValidation" xml:space="preserve"><value>UI Validation</value></data>
+  <data name="ValidatedGetText_DisplayName" xml:space="preserve"><value>Validated Get Text</value></data>
+  <data name="ValidatedGetText_Description" xml:space="preserve"><value>Reads and validates UI text through PreCondition, Do Work, and PostCondition stages.</value></data>
+  <data name="ValidatedTypeInto_DisplayName" xml:space="preserve"><value>Validated Type Into</value></data>
+  <data name="ValidatedTypeInto_Description" xml:space="preserve"><value>Writes and verifies UI text through PreCondition, Do Work, and PostCondition stages.</value></data>
+  <data name="ValidatedClick_DisplayName" xml:space="preserve"><value>Validated Click</value></data>
+  <data name="ValidatedClick_Description" xml:space="preserve"><value>Clicks a validated target and verifies a separate outcome safely.</value></data>
+</root>

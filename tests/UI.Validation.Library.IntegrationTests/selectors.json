@@ -1,0 +1,9 @@
+{
+  "application": "<wnd app='UI.Validation.TestHost.exe' title='UI Validation Deterministic Test Host' />",
+  "emptyInput": "<wnd app='UI.Validation.TestHost.exe' title='UI Validation Deterministic Test Host' /><ctrl automationid='EmptyInput' role='editable text' />",
+  "prepopulatedInput": "<wnd app='UI.Validation.TestHost.exe' title='UI Validation Deterministic Test Host' /><ctrl automationid='PrepopulatedInput' role='editable text' />",
+  "searchButton": "<wnd app='UI.Validation.TestHost.exe' title='UI Validation Deterministic Test Host' /><ctrl name='SearchButton' role='push button' />",
+  "resultLabel": "<wnd app='UI.Validation.TestHost.exe' title='UI Validation Deterministic Test Host' /><ctrl automationid='ResultLabel' role='text' />",
+  "counterButton": "<wnd app='UI.Validation.TestHost.exe' title='UI Validation Deterministic Test Host' /><ctrl name='NonIdempotentCounterButton' role='push button' />",
+  "clickCounter": "<wnd app='UI.Validation.TestHost.exe' title='UI Validation Deterministic Test Host' /><ctrl automationid='ClickCounter' role='text' />"
+}

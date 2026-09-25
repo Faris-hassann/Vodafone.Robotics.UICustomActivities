@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="src/UI.Validation.Library/UI.Validation.Library.csproj" />
+  <Project Path="src/UI.Validation.Library.Packaging/UI.Validation.Library.Packaging.csproj" />
+  <Project Path="tests/UI.Validation.Library.Tests/UI.Validation.Library.Tests.csproj" />
+  <Project Path="tests/UI.Validation.Library.IntegrationTests/UI.Validation.Library.IntegrationTests.csproj" />
+  <Project Path="testhost/UI.Validation.TestHost/UI.Validation.TestHost.csproj" />
+  <Project Path="samples/ConsumerSmoke/ConsumerSmoke.csproj" />
+</Solution>

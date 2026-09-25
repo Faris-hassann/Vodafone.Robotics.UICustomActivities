@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0-windows7.0</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <RollForward>Major</RollForward>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\UI.Validation.Library\UI.Validation.Library.csproj" />
+    <PackageReference Include="UiPath.Activities.Api" Version="24.10.1" PrivateAssets="all" />
+    <PackageReference Include="UiPath.Workflow" Version="6.0.0-20240401-07" PrivateAssets="all" />
+  </ItemGroup>
+</Project>

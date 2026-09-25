@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows7.0</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Vodafone.Robotics.UI.Validation.Activities</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Vodafone Robotics</Authors>
+    <Company>Vodafone</Company>
+    <Description>Production-grade UiPath Windows activities for validated Get Text, Type Into, and Click operations with PreCondition, Do Work, PostCondition, retries, structured results, and privacy-safe logging.</Description>
+    <PackageTags>UiPathActivities;UiPath;RPA;UIAutomation;Validation</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageOutputPath>..\..\artifacts\packages</PackageOutputPath>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UI.Validation.Library\UI.Validation.Library.csproj" PrivateAssets="all" />
+    <PackageReference Include="System.Activities.ViewModels" Version="1.20260609.1" />
+    <PackageReference Include="UiPath.UIAutomation.Activities" Version="24.10.13" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\UI.Validation.Library\bin\$(Configuration)\net6.0-windows7.0\UI.Validation.Library.dll" Pack="true" PackagePath="lib\net6.0-windows7.0\" />
+    <None Include="..\UI.Validation.Library\bin\$(Configuration)\net6.0-windows7.0\UI.Validation.Library.xml" Pack="true" PackagePath="lib\net6.0-windows7.0\" />
+  </ItemGroup>
+</Project>

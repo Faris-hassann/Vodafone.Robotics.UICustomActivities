@@ -1,0 +1,29 @@
+{
+  "resourceManagerName": "Vodafone.Robotics.UiValidation.Resources.Resources",
+  "activities": [
+    {
+      "fullName": "Vodafone.Robotics.UiValidation.Activities.ValidatedGetText",
+      "shortName": "ValidatedGetText",
+      "displayNameKey": "ValidatedGetText_DisplayName",
+      "descriptionKey": "ValidatedGetText_Description",
+      "categoryKey": "Category_UIValidation",
+      "viewModelType": "Vodafone.Robotics.UiValidation.ViewModels.ValidatedGetTextViewModel"
+    },
+    {
+      "fullName": "Vodafone.Robotics.UiValidation.Activities.ValidatedTypeInto",
+      "shortName": "ValidatedTypeInto",
+      "displayNameKey": "ValidatedTypeInto_DisplayName",
+      "descriptionKey": "ValidatedTypeInto_Description",
+      "categoryKey": "Category_UIValidation",
+      "viewModelType": "Vodafone.Robotics.UiValidation.ViewModels.ValidatedTypeIntoViewModel"
+    },
+    {
+      "fullName": "Vodafone.Robotics.UiValidation.Activities.ValidatedClick",
+      "shortName": "ValidatedClick",
+      "displayNameKey": "ValidatedClick_DisplayName",
+      "descriptionKey": "ValidatedClick_Description",
+      "categoryKey": "Category_UIValidation",
+      "viewModelType": "Vodafone.Robotics.UiValidation.ViewModels.ValidatedClickViewModel"
+    }
+  ]
+}

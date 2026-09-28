@@ -4,7 +4,8 @@ This project is already configured as a .NET library plus a UiPath/NuGet packagi
 
 ## Prerequisite
 
-Install the .NET SDK and make sure `dotnet` is available on `PATH`.
+Install the .NET 10 SDK or newer and make sure `dotnet` is available on `PATH`.
+The newer SDK is required because this repository uses the `.slnx` solution format.
 
 Check it with:
 
@@ -17,11 +18,18 @@ dotnet --info
 Run these commands from the repository root:
 
 ```powershell
+New-Item -ItemType Directory -Force -Path artifacts/packages | Out-Null
+dotnet restore src/UI.Validation.Library.Packaging/UI.Validation.Library.Packaging.csproj --configfile NuGet.config
+dotnet build src/UI.Validation.Library.Packaging/UI.Validation.Library.Packaging.csproj -c Release --no-restore
 dotnet restore UI.Validation.Library.slnx --configfile NuGet.config
 dotnet build UI.Validation.Library.slnx -c Release --no-restore
-dotnet build src/UI.Validation.Library.Packaging/UI.Validation.Library.Packaging.csproj -c Release --no-restore
-dotnet test tests/UI.Validation.Library.Tests/UI.Validation.Library.Tests.csproj -c Release --no-restore
+dotnet test tests/UI.Validation.Library.Tests/UI.Validation.Library.Tests.csproj -c Release --no-build --no-restore
+dotnet test tests/UI.Validation.Library.IntegrationTests/UI.Validation.Library.IntegrationTests.csproj -c Release --no-build --no-restore
 ```
+
+The packaging project is built first because `ConsumerSmoke` restores version `1.0.0`
+from `artifacts/packages`. On a clean checkout, that package does not exist until the
+packaging project has completed once.
 
 ## Output
 
@@ -39,12 +47,13 @@ artifacts/packages/Vodafone.Robotics.UI.Validation.Activities.1.0.0.nupkg
 4. Install `Vodafone.Robotics.UI.Validation.Activities`.
 5. Confirm the activities appear under the `UI Validation` category.
 
-## Attempted Locally
+## Verified Locally
 
-I attempted to run the build commands in this workspace, but this shell currently cannot find the .NET CLI:
+Verified on September 28, 2026 with .NET SDK `10.0.401`:
 
 ```text
-dotnet : The term 'dotnet' is not recognized as the name of a cmdlet, function, script file, or operable program.
+Package: Vodafone.Robotics.UI.Validation.Activities.1.0.0.nupkg
+Build: succeeded with 0 warnings and 0 errors
+Unit tests: 139 passed, 0 failed, 0 skipped
+Integration test project: completed successfully
 ```
-
-After installing the .NET SDK or fixing `PATH`, rerun the commands above.

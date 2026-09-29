@@ -18,7 +18,9 @@ Returns the unchanged raw `Text` and a `ValidationResult`. Rules are `RetrievedS
 
 ## Validated Type Into
 
-Modes are `Replace`, `Append`, and `ClearOnly`. Append computes `original + separator + input`. `ExpectedExistingValue` is checked before mutation. `ExpectedFinalValue` supports application-side transformations. Read-back strategies are Auto/Text/ValueAttribute/SpecificAttribute/ActionOnly. Secure input never claims exact read-back and is always redacted from logs.
+The required **Target Selector** is a complete UiPath selector XML string. Its selector attributes identify the input control directly, so new Type Into configurations do not show the separate Expected Target Name, Text, Role, ID, Class, or Automation ID fields. The serialized property remains `DoWorkSelector` for compatibility with existing workflows.
+
+Modes are `Replace`, `Append`, and `ClearOnly`. Append computes `original + separator + input`. `ExpectedExistingValue` is checked before mutation. `ExpectedFinalValue` supports application-side transformations. Read-back strategies are Auto/Text/ValueAttribute/SpecificAttribute/ActionOnly. Secure input never claims exact read-back and is always redacted from logs. Every Type Into argument includes a Studio tooltip describing its purpose and a concrete example.
 
 ## Validated Click
 

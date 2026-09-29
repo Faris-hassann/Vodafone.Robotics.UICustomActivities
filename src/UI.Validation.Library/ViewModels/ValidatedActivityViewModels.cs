@@ -11,12 +11,6 @@ public abstract class ValidatedActivityViewModelBase : DesignPropertiesViewModel
     public DesignInArgument<string?> PreConditionExpectedValue { get; set; } = null!;
     public DesignInArgument<string> DoWorkSelector { get; set; } = null!;
     public DesignInArgument<bool> AllowMultipleMatches { get; set; } = null!;
-    public DesignInArgument<string?> ExpectedTargetName { get; set; } = null!;
-    public DesignInArgument<string?> ExpectedTargetText { get; set; } = null!;
-    public DesignInArgument<string?> ExpectedTargetRole { get; set; } = null!;
-    public DesignInArgument<string?> ExpectedTargetId { get; set; } = null!;
-    public DesignInArgument<string?> ExpectedTargetClass { get; set; } = null!;
-    public DesignInArgument<string?> ExpectedAutomationId { get; set; } = null!;
     public DesignInArgument<bool> RequireVisible { get; set; } = null!;
     public DesignInArgument<bool> RequireEnabled { get; set; } = null!;
     public DesignInArgument<string?> PostConditionSelector { get; set; } = null!;
@@ -42,41 +36,39 @@ public abstract class ValidatedActivityViewModelBase : DesignPropertiesViewModel
     {
         base.InitializeModel();
         var order = 0;
-        Configure(PreConditionSelector, "PreCondition Selector", "Complete selector evaluated before Do Work.", false, false, ref order);
-        Configure(PreConditionKind, "PreCondition Kind", "Rule that gates Do Work.", false, false, ref order);
-        Configure(PreConditionAttribute, "PreCondition Attribute", "Attribute used by the precondition rule.", false, false, ref order);
-        Configure(PreConditionExpectedValue, "PreCondition Expected Value", "Expected state or value for the precondition.", false, false, ref order);
-        Configure(DoWorkSelector, "Do Work Selector", "Complete UiPath selector for the main operation.", true, true, ref order);
-        Configure(AllowMultipleMatches, "Allow Multiple Matches", "Explicitly permits selection of the first match.", false, false, ref order);
-        Configure(ExpectedTargetName, "Expected Target Name", "Optional identity check.", false, false, ref order);
-        Configure(ExpectedTargetText, "Expected Target Text", "Optional identity check.", false, false, ref order);
-        Configure(ExpectedTargetRole, "Expected Target Role", "Optional identity check.", false, false, ref order);
-        Configure(ExpectedTargetId, "Expected Target ID", "Optional identity check.", false, false, ref order);
-        Configure(ExpectedTargetClass, "Expected Target Class", "Optional identity check.", false, false, ref order);
-        Configure(ExpectedAutomationId, "Expected Automation ID", "Optional identity check.", false, false, ref order);
-        Configure(RequireVisible, "Require Visible", "Rejects a target that is not visible.", false, false, ref order);
-        Configure(RequireEnabled, "Require Enabled", "Rejects a target that is disabled.", false, false, ref order);
+        Configure(PreConditionSelector, "PreCondition Selector", Help(nameof(PreConditionSelector), "Complete selector evaluated before Do Work."), false, false, ref order);
+        Configure(PreConditionKind, "PreCondition Kind", Help(nameof(PreConditionKind), "Rule that gates Do Work."), false, false, ref order);
+        Configure(PreConditionAttribute, "PreCondition Attribute", Help(nameof(PreConditionAttribute), "Attribute used by the precondition rule."), false, false, ref order);
+        Configure(PreConditionExpectedValue, "PreCondition Expected Value", Help(nameof(PreConditionExpectedValue), "Expected state or value for the precondition."), false, false, ref order);
+        Configure(DoWorkSelector, TargetSelectorDisplayName, Help(nameof(DoWorkSelector), "Complete UiPath selector for the main operation."), true, true, ref order);
+        Configure(AllowMultipleMatches, "Allow Multiple Matches", Help(nameof(AllowMultipleMatches), "Explicitly permits selection of the first match."), false, false, ref order);
+        ConfigureTargetIdentity(ref order);
+        Configure(RequireVisible, "Require Visible", Help(nameof(RequireVisible), "Rejects a target that is not visible."), false, false, ref order);
+        Configure(RequireEnabled, "Require Enabled", Help(nameof(RequireEnabled), "Rejects a target that is disabled."), false, false, ref order);
         ConfigureSpecific(ref order);
-        Configure(PostConditionSelector, "PostCondition Selector", "Complete selector used to prove the outcome.", false, false, ref order);
-        Configure(PostConditionKind, "PostCondition Kind", "Outcome rule evaluated after Do Work.", false, false, ref order);
-        Configure(PostConditionAttribute, "PostCondition Attribute", "Attribute used by the outcome rule.", false, false, ref order);
-        Configure(PostConditionExpectedValue, "PostCondition Expected Value", "Expected outcome value.", false, false, ref order);
-        Configure(TimeoutMilliseconds, "Timeout (ms)", "Per-resolution timeout in milliseconds.", false, false, ref order);
-        Configure(RetryCount, "Retry Count", "Additional attempts after the first attempt.", false, false, ref order);
-        Configure(RetryIntervalMilliseconds, "Retry Interval (ms)", "Fixed delay between retries or polls.", false, false, ref order);
-        Configure(CaseSensitive, "Case Sensitive", "Uses ordinal case-sensitive comparison when enabled.", false, false, ref order);
-        Configure(TrimForValidation, "Trim For Validation", "Trims only the comparison view, never returned raw text.", false, false, ref order);
-        Configure(NormalizeWhitespace, "Normalize Whitespace", "Normalizes only the comparison view.", false, false, ref order);
-        Configure(CorrelationId, "Correlation ID", "Optional workflow-wide correlation identifier.", false, false, ref order);
-        Configure(LogSensitiveValues, "Log Sensitive Values", "Explicit opt-in; secure text remains redacted.", false, false, ref order);
-        Configure(LogFullSelector, "Log Full Selector", "Explicit opt-in to full selector logging.", false, false, ref order);
-        Configure(ScreenshotOnFinalFailure, "Screenshot On Final Failure", "Captures a diagnostic image after the primary failure.", false, false, ref order);
-        Configure(ThrowOnFailure, "Throw On Failure", "Throws a classified exception instead of returning only a failed result.", false, false, ref order);
-        Configure(ValidationResult, "Validation Result", "Structured lifecycle, verification, retry, and failure result.", false, ref order);
+        Configure(PostConditionSelector, "PostCondition Selector", Help(nameof(PostConditionSelector), "Complete selector used to prove the outcome."), false, false, ref order);
+        Configure(PostConditionKind, "PostCondition Kind", Help(nameof(PostConditionKind), "Outcome rule evaluated after Do Work."), false, false, ref order);
+        Configure(PostConditionAttribute, "PostCondition Attribute", Help(nameof(PostConditionAttribute), "Attribute used by the outcome rule."), false, false, ref order);
+        Configure(PostConditionExpectedValue, "PostCondition Expected Value", Help(nameof(PostConditionExpectedValue), "Expected outcome value."), false, false, ref order);
+        Configure(TimeoutMilliseconds, "Timeout (ms)", Help(nameof(TimeoutMilliseconds), "Per-resolution timeout in milliseconds."), false, false, ref order);
+        Configure(RetryCount, "Retry Count", Help(nameof(RetryCount), "Additional attempts after the first attempt."), false, false, ref order);
+        Configure(RetryIntervalMilliseconds, "Retry Interval (ms)", Help(nameof(RetryIntervalMilliseconds), "Fixed delay between retries or polls."), false, false, ref order);
+        Configure(CaseSensitive, "Case Sensitive", Help(nameof(CaseSensitive), "Uses ordinal case-sensitive comparison when enabled."), false, false, ref order);
+        Configure(TrimForValidation, "Trim For Validation", Help(nameof(TrimForValidation), "Trims only the comparison view, never returned raw text."), false, false, ref order);
+        Configure(NormalizeWhitespace, "Normalize Whitespace", Help(nameof(NormalizeWhitespace), "Normalizes only the comparison view."), false, false, ref order);
+        Configure(CorrelationId, "Correlation ID", Help(nameof(CorrelationId), "Optional workflow-wide correlation identifier."), false, false, ref order);
+        Configure(LogSensitiveValues, "Log Sensitive Values", Help(nameof(LogSensitiveValues), "Explicit opt-in; secure text remains redacted."), false, false, ref order);
+        Configure(LogFullSelector, "Log Full Selector", Help(nameof(LogFullSelector), "Explicit opt-in to full selector logging."), false, false, ref order);
+        Configure(ScreenshotOnFinalFailure, "Screenshot On Final Failure", Help(nameof(ScreenshotOnFinalFailure), "Captures a diagnostic image after the primary failure."), false, false, ref order);
+        Configure(ThrowOnFailure, "Throw On Failure", Help(nameof(ThrowOnFailure), "Throws a classified exception instead of returning only a failed result."), false, false, ref order);
+        Configure(ValidationResult, "Validation Result", Help(nameof(ValidationResult), "Structured lifecycle, verification, retry, and failure result."), false, ref order);
         PersistValuesChangedDuringInit();
     }
 
     protected abstract void ConfigureSpecific(ref int order);
+    protected virtual void ConfigureTargetIdentity(ref int order) { }
+    protected virtual string TargetSelectorDisplayName => "Do Work Selector";
+    protected virtual string Help(string propertyName, string fallback) => fallback;
 
     protected static void Configure<T>(DesignInArgument<T> property, string name, string tooltip, bool required, bool principal, ref int order)
     {
@@ -96,7 +88,29 @@ public abstract class ValidatedActivityViewModelBase : DesignPropertiesViewModel
     }
 }
 
-public sealed class ValidatedGetTextViewModel : ValidatedActivityViewModelBase
+public abstract class ValidatedIdentityActivityViewModelBase : ValidatedActivityViewModelBase
+{
+    public DesignInArgument<string?> ExpectedTargetName { get; set; } = null!;
+    public DesignInArgument<string?> ExpectedTargetText { get; set; } = null!;
+    public DesignInArgument<string?> ExpectedTargetRole { get; set; } = null!;
+    public DesignInArgument<string?> ExpectedTargetId { get; set; } = null!;
+    public DesignInArgument<string?> ExpectedTargetClass { get; set; } = null!;
+    public DesignInArgument<string?> ExpectedAutomationId { get; set; } = null!;
+
+    protected ValidatedIdentityActivityViewModelBase(IDesignServices services) : base(services) { }
+
+    protected override void ConfigureTargetIdentity(ref int order)
+    {
+        Configure(ExpectedTargetName, "Expected Target Name", "Optional identity check.", false, false, ref order);
+        Configure(ExpectedTargetText, "Expected Target Text", "Optional identity check.", false, false, ref order);
+        Configure(ExpectedTargetRole, "Expected Target Role", "Optional identity check.", false, false, ref order);
+        Configure(ExpectedTargetId, "Expected Target ID", "Optional identity check.", false, false, ref order);
+        Configure(ExpectedTargetClass, "Expected Target Class", "Optional identity check.", false, false, ref order);
+        Configure(ExpectedAutomationId, "Expected Automation ID", "Optional identity check.", false, false, ref order);
+    }
+}
+
+public sealed class ValidatedGetTextViewModel : ValidatedIdentityActivityViewModelBase
 {
     public new DesignInArgument<TextRule> Rule { get; set; } = null!;
     public DesignInArgument<TextRule> AdditionalRule { get; set; } = null!;
@@ -129,22 +143,24 @@ public sealed class ValidatedTypeIntoViewModel : ValidatedActivityViewModelBase
     public DesignInArgument<bool> IsSecure { get; set; } = null!;
     public DesignInArgument<bool> DisallowEmptyInput { get; set; } = null!;
     public ValidatedTypeIntoViewModel(IDesignServices services) : base(services) { }
+    protected override string TargetSelectorDisplayName => TypeIntoArgumentHelp.SelectorDisplayName;
+    protected override string Help(string propertyName, string fallback) => TypeIntoArgumentHelp.Get(propertyName);
     protected override void ConfigureSpecific(ref int order)
     {
-        Configure(Mode, "Mode", "Replace, Append, or ClearOnly.", false, true, ref order);
-        Configure(InputText, "Input Text", "Text to write; redacted in logs by default.", false, true, ref order);
-        Configure(AppendSeparator, "Append Separator", "Separator inserted between original and appended text.", false, false, ref order);
-        Configure(ExpectedExistingValue, "Expected Existing Value", "Optional pre-mutation value check.", false, false, ref order);
-        Configure(ExpectedFinalValue, "Expected Final Value", "Override for intentional application transformations.", false, false, ref order);
-        Configure(VerificationMode, "Verification Mode", "Read-back strategy used after typing.", false, false, ref order);
-        Configure(VerificationAttribute, "Verification Attribute", "Required for SpecificAttribute mode.", false, false, ref order);
-        Configure(IsSensitive, "Is Sensitive", "Marks ordinary input as sensitive.", false, false, ref order);
-        Configure(IsSecure, "Is Secure", "Prevents exact value logging/read-back claims.", false, false, ref order);
-        Configure(DisallowEmptyInput, "Disallow Empty Input", "Rejects an empty non-ClearOnly request.", false, false, ref order);
+        Configure(Mode, "Mode", Help(nameof(Mode), string.Empty), false, true, ref order);
+        Configure(InputText, "Input Text", Help(nameof(InputText), string.Empty), false, true, ref order);
+        Configure(AppendSeparator, "Append Separator", Help(nameof(AppendSeparator), string.Empty), false, false, ref order);
+        Configure(ExpectedExistingValue, "Expected Existing Value", Help(nameof(ExpectedExistingValue), string.Empty), false, false, ref order);
+        Configure(ExpectedFinalValue, "Expected Final Value", Help(nameof(ExpectedFinalValue), string.Empty), false, false, ref order);
+        Configure(VerificationMode, "Verification Mode", Help(nameof(VerificationMode), string.Empty), false, false, ref order);
+        Configure(VerificationAttribute, "Verification Attribute", Help(nameof(VerificationAttribute), string.Empty), false, false, ref order);
+        Configure(IsSensitive, "Is Sensitive", Help(nameof(IsSensitive), string.Empty), false, false, ref order);
+        Configure(IsSecure, "Is Secure", Help(nameof(IsSecure), string.Empty), false, false, ref order);
+        Configure(DisallowEmptyInput, "Disallow Empty Input", Help(nameof(DisallowEmptyInput), string.Empty), false, false, ref order);
     }
 }
 
-public sealed class ValidatedClickViewModel : ValidatedActivityViewModelBase
+public sealed class ValidatedClickViewModel : ValidatedIdentityActivityViewModelBase
 {
     public DesignInArgument<bool> AllowActionRetry { get; set; } = null!;
     public DesignInArgument<bool> SkipWhenPostConditionAlreadySatisfied { get; set; } = null!;

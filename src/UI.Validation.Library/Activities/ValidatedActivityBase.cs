@@ -28,29 +28,11 @@ public abstract class ValidatedActivityBase : CodeActivity
 
     [RequiredArgument]
     [Category("2. Do Work")]
-    [Description("Complete UiPath selector for the element on which this activity performs its main operation.")]
-    public InArgument<string> DoWorkSelector { get; set; } = null!;
+    [Description("Required complete UiPath selector for the element on which this activity performs its main operation.")]
+    public InArgument<string> TargetSelector { get; set; } = null!;
 
     [Category("2. Do Work")]
     public InArgument<bool> AllowMultipleMatches { get; set; } = new(false);
-
-    [Category("2. Do Work - Target Identity")]
-    public InArgument<string?> ExpectedTargetName { get; set; } = new();
-
-    [Category("2. Do Work - Target Identity")]
-    public InArgument<string?> ExpectedTargetText { get; set; } = new();
-
-    [Category("2. Do Work - Target Identity")]
-    public InArgument<string?> ExpectedTargetRole { get; set; } = new();
-
-    [Category("2. Do Work - Target Identity")]
-    public InArgument<string?> ExpectedTargetId { get; set; } = new();
-
-    [Category("2. Do Work - Target Identity")]
-    public InArgument<string?> ExpectedTargetClass { get; set; } = new();
-
-    [Category("2. Do Work - Target Identity")]
-    public InArgument<string?> ExpectedAutomationId { get; set; } = new();
 
     [Category("2. Do Work - Target Identity")]
     public InArgument<bool> RequireVisible { get; set; } = new(true);
@@ -126,7 +108,7 @@ public abstract class ValidatedActivityBase : CodeActivity
     protected T Common<T>(CodeActivityContext context, T configuration) where T : ActivityConfiguration => configuration with
     {
         ActivityName = DisplayName,
-        WorkSelector = DoWorkSelector.Get(context),
+        WorkSelector = TargetSelector.Get(context),
         CorrelationId = CorrelationId.Get(context),
         TimeoutMilliseconds = TimeoutMilliseconds.Get(context),
         RetryCount = RetryCount.Get(context),
@@ -136,9 +118,7 @@ public abstract class ValidatedActivityBase : CodeActivity
         ScreenshotOnFinalFailure = ScreenshotOnFinalFailure.Get(context),
         LogSensitiveValues = LogSensitiveValues.Get(context),
         LogFullSelector = LogFullSelector.Get(context),
-        Identity = new(
-            ExpectedTargetName.Get(context), ExpectedTargetText.Get(context), ExpectedTargetRole.Get(context), ExpectedTargetId.Get(context),
-            ExpectedTargetClass.Get(context), ExpectedAutomationId.Get(context), RequireVisible.Get(context), RequireEnabled.Get(context)),
+        Identity = new(RequireVisible: RequireVisible.Get(context), RequireEnabled: RequireEnabled.Get(context)),
         PreCondition = new(PreConditionKind.Get(context), PreConditionSelector.Get(context), PreConditionAttribute.Get(context), PreConditionExpectedValue.Get(context)),
         PostCondition = new(PostConditionKind.Get(context), PostConditionSelector.Get(context), PostConditionAttribute.Get(context), PostConditionExpectedValue.Get(context)),
         Comparison = new(CaseSensitive.Get(context), TrimForValidation.Get(context), NormalizeWhitespace.Get(context))

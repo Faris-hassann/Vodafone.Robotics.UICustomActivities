@@ -2,15 +2,13 @@ namespace Vodafone.Robotics.UiValidation.ViewModels;
 
 internal static class TypeIntoArgumentHelp
 {
-    internal const string SelectorDisplayName = "Target Selector";
-
     internal static readonly IReadOnlyDictionary<string, string> Entries = new Dictionary<string, string>(StringComparer.Ordinal)
     {
         ["PreConditionSelector"] = "Complete UiPath selector checked before typing when a precondition is configured. Example: <wnd app='notepad.exe' /><ctrl name='Status' role='text' />.",
         ["PreConditionKind"] = "Rule that must pass before the target is changed; None skips the check. Example: TextEquals.",
         ["PreConditionAttribute"] = "Target attribute read by an AttributeEquals precondition. Example: enabled.",
         ["PreConditionExpectedValue"] = "Value required by the selected precondition rule. Example: Ready.",
-        ["DoWorkSelector"] = "Required complete UiPath selector XML for the input control; selector attributes identify the target directly. Example: <wnd app='notepad.exe' /><ctrl automationid='SearchBox' role='editable text' />.",
+        ["TargetSelector"] = "Required complete UiPath selector XML for the input control; selector attributes identify the target directly. Example: <wnd app='notepad.exe' /><ctrl automationid='SearchBox' role='editable text' />.",
         ["AllowMultipleMatches"] = "Allows the first selector match to be used when more than one element matches; false fails safely. Example: false.",
         ["RequireVisible"] = "Requires the selected input control to be visible before typing. Example: true.",
         ["RequireEnabled"] = "Requires the selected input control to be enabled before typing. Example: true.",

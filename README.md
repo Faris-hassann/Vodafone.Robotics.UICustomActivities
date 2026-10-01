@@ -11,7 +11,7 @@ Every activity follows the same logged lifecycle:
 ```text
 Configuration validation
   -> PreCondition (optional complete selector)
-  -> Do Work (required complete selector)
+  -> Target (required complete selector)
   -> PostCondition (optional complete selector)
   -> structured UIValidationResult
 ```
@@ -26,14 +26,16 @@ dotnet build UI.Validation.Library.slnx -c Release --no-restore
 dotnet test tests/UI.Validation.Library.Tests/UI.Validation.Library.Tests.csproj -c Release --no-restore
 ```
 
-The package is written to `artifacts/packages/Vodafone.Robotics.UI.Validation.Activities.1.0.0.nupkg`.
+The current package is written to `artifacts/packages/Vodafone.Robotics.UI.Validation.Activities.2.0.0.nupkg`.
+The same local feed retains `1.0.0` for existing workflows, so UiPath Studio can offer
+both versions.
 
 ## Install in UiPath Studio
 
 1. Add `artifacts/packages` as a local package source in **Manage Packages > Settings**.
 2. Install `Vodafone.Robotics.UI.Validation.Activities` in a modern **Windows** project.
 3. Find the three activities under the **UI Validation** category.
-4. Pass complete UiPath selector XML strings to `PreConditionSelector`, `DoWorkSelector`, and `PostConditionSelector` as needed.
+4. Provide the required `TargetSelector` and, when configured, complete selector XML strings for `PreConditionSelector` and `PostConditionSelector`.
 5. Keep `LogFullSelector=false` and `LogSensitiveValues=false` unless an approved diagnostic policy explicitly permits those values.
 
 `RetryCount` means retries after the first attempt, so `MaxAttempts = 1 + RetryCount`. Click action retry is disabled by default; postcondition polling can continue without issuing a second click.
@@ -47,7 +49,7 @@ The package is written to `artifacts/packages/Vodafone.Robotics.UI.Validation.Ac
 - `tests/UI.Validation.Library.IntegrationTests` — attended harness and complete-selector catalog.
 - `samples/ConsumerSmoke` — clean package-consumer compilation smoke test.
 
-The current verified baseline is 139 automated tests with zero failures/skips, complete traceability for all 108 mandatory scenario IDs in the supplied test pack, and passing deterministic real-UI flows E2E-001 through E2E-005.
+The current verified baseline is 143 library tests with zero failures/skips, complete traceability for all 108 mandatory scenario IDs in the supplied test pack, and passing deterministic real-UI flows E2E-001 through E2E-005.
 
 ## Runtime note
 

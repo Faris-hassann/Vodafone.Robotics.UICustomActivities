@@ -46,21 +46,26 @@ public sealed class PublicSurfaceTests
     }
 
     [Fact]
-    public void TypeInto_designer_uses_one_target_selector_and_hides_identity_fields()
+    public void Every_designer_uses_one_target_selector_and_has_no_identity_fields()
     {
-        var typeIntoProperties = DesignerArgumentNames(typeof(ValidatedTypeIntoViewModel));
         var identityProperties = new[]
         {
             "ExpectedTargetName", "ExpectedTargetText", "ExpectedTargetRole",
             "ExpectedTargetId", "ExpectedTargetClass", "ExpectedAutomationId"
         };
 
-        Assert.Contains(nameof(ValidatedActivityBase.DoWorkSelector), typeIntoProperties);
-        Assert.Equal("Target Selector", TypeIntoArgumentHelp.SelectorDisplayName);
-        Assert.DoesNotContain(typeIntoProperties, identityProperties.Contains);
-
-        Assert.All(identityProperties, name => Assert.Contains(name, DesignerArgumentNames(typeof(ValidatedGetTextViewModel))));
-        Assert.All(identityProperties, name => Assert.Contains(name, DesignerArgumentNames(typeof(ValidatedClickViewModel))));
+        foreach (var viewModelType in new[]
+                 {
+                     typeof(ValidatedGetTextViewModel),
+                     typeof(ValidatedTypeIntoViewModel),
+                     typeof(ValidatedClickViewModel)
+                 })
+        {
+            var properties = DesignerArgumentNames(viewModelType);
+            Assert.Contains(nameof(ValidatedActivityBase.TargetSelector), properties);
+            Assert.DoesNotContain("DoWorkSelector", properties);
+            Assert.DoesNotContain(properties, identityProperties.Contains);
+        }
     }
 
     [Fact]
@@ -78,14 +83,33 @@ public sealed class PublicSurfaceTests
     }
 
     [Fact]
-    public void TypeInto_runtime_keeps_DoWorkSelector_and_legacy_identity_properties()
+    public void Runtime_exposes_only_TargetSelector_and_removes_legacy_target_arguments()
     {
-        var runtimeProperties = typeof(ValidatedTypeInto).GetProperties().Select(property => property.Name).ToHashSet(StringComparer.Ordinal);
+        var runtimeProperties = typeof(ValidatedActivityBase).GetProperties().Select(property => property.Name).ToHashSet(StringComparer.Ordinal);
+        var removedProperties = new[]
+        {
+            "DoWorkSelector", "ExpectedTargetName", "ExpectedTargetText", "ExpectedTargetRole",
+            "ExpectedTargetId", "ExpectedTargetClass", "ExpectedAutomationId"
+        };
 
-        Assert.Contains(nameof(ValidatedActivityBase.DoWorkSelector), runtimeProperties);
-        Assert.DoesNotContain("TargetSelector", runtimeProperties);
-        Assert.Contains(nameof(ValidatedActivityBase.ExpectedTargetName), runtimeProperties);
-        Assert.Contains(nameof(ValidatedActivityBase.ExpectedAutomationId), runtimeProperties);
+        Assert.Contains(nameof(ValidatedActivityBase.TargetSelector), runtimeProperties);
+        Assert.DoesNotContain(runtimeProperties, removedProperties.Contains);
+    }
+
+    [Fact]
+    public void Every_common_designer_argument_has_purpose_and_example_help()
+    {
+        var commonArguments = DesignerArgumentNames(typeof(ValidatedActivityViewModelBase));
+
+        Assert.Equal(commonArguments.OrderBy(name => name), CommonArgumentHelp.Entries.Keys.OrderBy(name => name));
+        Assert.All(CommonArgumentHelp.Entries.Values, AssertPurposeAndExample);
+    }
+
+    private static void AssertPurposeAndExample(string tooltip)
+    {
+        Assert.False(string.IsNullOrWhiteSpace(tooltip));
+        Assert.Contains("Example:", tooltip, StringComparison.Ordinal);
+        Assert.True(tooltip.IndexOf("Example:", StringComparison.Ordinal) > 0);
     }
 
     private static HashSet<string> DesignerArgumentNames(Type viewModelType)

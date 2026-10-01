@@ -13,7 +13,7 @@ public sealed class ActivityWorkflowTests
         var target = new FakeTarget { Text = "Ready" };
         var outputs = Invoke(new FakeAdapter().Add("work", target), new ValidatedGetText
         {
-            DoWorkSelector = "work",
+            TargetSelector = "work",
             Rule = TextRule.Exact,
             ExpectedText = "Ready",
             RetryCount = 0,
@@ -29,7 +29,7 @@ public sealed class ActivityWorkflowTests
         var target = new FakeTarget { Text = "Old" };
         var outputs = Invoke(new FakeAdapter().Add("work", target), new ValidatedTypeInto
         {
-            DoWorkSelector = "work",
+            TargetSelector = "work",
             InputText = "New",
             RetryCount = 0,
             ScreenshotOnFinalFailure = false
@@ -44,7 +44,7 @@ public sealed class ActivityWorkflowTests
         var target = new FakeTarget();
         var outputs = Invoke(new FakeAdapter().Add("work", target), new ValidatedClick
         {
-            DoWorkSelector = "work",
+            TargetSelector = "work",
             RetryCount = 0,
             ScreenshotOnFinalFailure = false
         });
@@ -57,7 +57,7 @@ public sealed class ActivityWorkflowTests
     {
         var outputs = Invoke(new FakeAdapter(), new ValidatedGetText
         {
-            DoWorkSelector = "missing",
+            TargetSelector = "missing",
             ThrowOnFailure = false,
             RetryCount = 0,
             ScreenshotOnFinalFailure = false

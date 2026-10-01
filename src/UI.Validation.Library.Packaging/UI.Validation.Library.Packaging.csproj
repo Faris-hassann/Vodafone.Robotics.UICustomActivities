@@ -4,10 +4,10 @@
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Vodafone.Robotics.UI.Validation.Activities</PackageId>
-    <Version>1.0.0</Version>
+    <Version>2.0.0</Version>
     <Authors>Vodafone Robotics</Authors>
     <Company>Vodafone</Company>
-    <Description>Production-grade UiPath Windows activities for validated Get Text, Type Into, and Click operations with PreCondition, Do Work, PostCondition, retries, structured results, and privacy-safe logging.</Description>
+    <Description>UiPath Windows activities for validated Get Text, Type Into, and Click operations with optional preconditions and postconditions, one required Target Selector, guided arguments, retries, structured results, and privacy-safe logging.</Description>
     <PackageTags>UiPathActivities;UiPath;RPA;UIAutomation;Validation</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>

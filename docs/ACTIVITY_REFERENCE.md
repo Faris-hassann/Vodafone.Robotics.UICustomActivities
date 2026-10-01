@@ -5,7 +5,7 @@
 All three activities expose:
 
 - `PreConditionSelector`, `PreConditionKind`, `PreConditionAttribute`, `PreConditionExpectedValue`
-- `DoWorkSelector` plus optional target identity fields (`ExpectedTargetName`, `ExpectedTargetText`, role, ID, class, automation ID, visible, enabled)
+- required `TargetSelector`, plus `AllowMultipleMatches`, `RequireVisible`, and `RequireEnabled`
 - `PostConditionSelector`, `PostConditionKind`, `PostConditionAttribute`, `PostConditionExpectedValue`
 
 Each selector is a complete selector string and is resolved independently. Invalid configuration is rejected before mutation.
@@ -16,11 +16,16 @@ Shared operational inputs include timeout, retry count/interval, strict comparis
 
 Returns the unchanged raw `Text` and a `ValidationResult`. Rules are `RetrievedSuccessfully`, `NotEmpty`, `Exact`, `Contains`, `StartsWith`, `EndsWith`, and `Regex`. `Rule` and `AdditionalRule` use AND semantics. Trim/whitespace normalization affects comparison only.
 
+Version `2.0.0` uses the same simplified selector surface for all three activities.
+Selector attributes identify the target directly; the separate Expected Target Name,
+Text, Role, ID, Class, and Automation ID arguments were removed. Every visible argument
+has a Studio hover description with its purpose and an example.
+
 ## Validated Type Into
 
-The required **Target Selector** is a complete UiPath selector XML string. Its selector attributes identify the input control directly, so new Type Into configurations do not show the separate Expected Target Name, Text, Role, ID, Class, or Automation ID fields. The serialized property remains `DoWorkSelector` for compatibility with existing workflows.
+The required **Target Selector** is a complete UiPath selector XML string whose attributes identify the input control directly.
 
-Modes are `Replace`, `Append`, and `ClearOnly`. Append computes `original + separator + input`. `ExpectedExistingValue` is checked before mutation. `ExpectedFinalValue` supports application-side transformations. Read-back strategies are Auto/Text/ValueAttribute/SpecificAttribute/ActionOnly. Secure input never claims exact read-back and is always redacted from logs. Every Type Into argument includes a Studio tooltip describing its purpose and a concrete example.
+Modes are `Replace`, `Append`, and `ClearOnly`. Append computes `original + separator + input`. `ExpectedExistingValue` is checked before mutation. `ExpectedFinalValue` supports application-side transformations. Read-back strategies are Auto/Text/ValueAttribute/SpecificAttribute/ActionOnly. Secure input never claims exact read-back and is always redacted from logs.
 
 ## Validated Click
 

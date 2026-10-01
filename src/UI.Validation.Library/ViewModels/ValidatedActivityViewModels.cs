@@ -9,7 +9,7 @@ public abstract class ValidatedActivityViewModelBase : DesignPropertiesViewModel
     public DesignInArgument<ConditionKind> PreConditionKind { get; set; } = null!;
     public DesignInArgument<string?> PreConditionAttribute { get; set; } = null!;
     public DesignInArgument<string?> PreConditionExpectedValue { get; set; } = null!;
-    public DesignInArgument<string> DoWorkSelector { get; set; } = null!;
+    public DesignInArgument<string> TargetSelector { get; set; } = null!;
     public DesignInArgument<bool> AllowMultipleMatches { get; set; } = null!;
     public DesignInArgument<bool> RequireVisible { get; set; } = null!;
     public DesignInArgument<bool> RequireEnabled { get; set; } = null!;
@@ -40,9 +40,8 @@ public abstract class ValidatedActivityViewModelBase : DesignPropertiesViewModel
         Configure(PreConditionKind, "PreCondition Kind", Help(nameof(PreConditionKind), "Rule that gates Do Work."), false, false, ref order);
         Configure(PreConditionAttribute, "PreCondition Attribute", Help(nameof(PreConditionAttribute), "Attribute used by the precondition rule."), false, false, ref order);
         Configure(PreConditionExpectedValue, "PreCondition Expected Value", Help(nameof(PreConditionExpectedValue), "Expected state or value for the precondition."), false, false, ref order);
-        Configure(DoWorkSelector, TargetSelectorDisplayName, Help(nameof(DoWorkSelector), "Complete UiPath selector for the main operation."), true, true, ref order);
+        Configure(TargetSelector, "Target Selector", Help(nameof(TargetSelector), "Required complete UiPath selector for the main operation."), true, true, ref order);
         Configure(AllowMultipleMatches, "Allow Multiple Matches", Help(nameof(AllowMultipleMatches), "Explicitly permits selection of the first match."), false, false, ref order);
-        ConfigureTargetIdentity(ref order);
         Configure(RequireVisible, "Require Visible", Help(nameof(RequireVisible), "Rejects a target that is not visible."), false, false, ref order);
         Configure(RequireEnabled, "Require Enabled", Help(nameof(RequireEnabled), "Rejects a target that is disabled."), false, false, ref order);
         ConfigureSpecific(ref order);
@@ -66,9 +65,7 @@ public abstract class ValidatedActivityViewModelBase : DesignPropertiesViewModel
     }
 
     protected abstract void ConfigureSpecific(ref int order);
-    protected virtual void ConfigureTargetIdentity(ref int order) { }
-    protected virtual string TargetSelectorDisplayName => "Do Work Selector";
-    protected virtual string Help(string propertyName, string fallback) => fallback;
+    protected virtual string Help(string propertyName, string fallback) => CommonArgumentHelp.Get(propertyName, fallback);
 
     protected static void Configure<T>(DesignInArgument<T> property, string name, string tooltip, bool required, bool principal, ref int order)
     {
@@ -88,29 +85,7 @@ public abstract class ValidatedActivityViewModelBase : DesignPropertiesViewModel
     }
 }
 
-public abstract class ValidatedIdentityActivityViewModelBase : ValidatedActivityViewModelBase
-{
-    public DesignInArgument<string?> ExpectedTargetName { get; set; } = null!;
-    public DesignInArgument<string?> ExpectedTargetText { get; set; } = null!;
-    public DesignInArgument<string?> ExpectedTargetRole { get; set; } = null!;
-    public DesignInArgument<string?> ExpectedTargetId { get; set; } = null!;
-    public DesignInArgument<string?> ExpectedTargetClass { get; set; } = null!;
-    public DesignInArgument<string?> ExpectedAutomationId { get; set; } = null!;
-
-    protected ValidatedIdentityActivityViewModelBase(IDesignServices services) : base(services) { }
-
-    protected override void ConfigureTargetIdentity(ref int order)
-    {
-        Configure(ExpectedTargetName, "Expected Target Name", "Optional identity check.", false, false, ref order);
-        Configure(ExpectedTargetText, "Expected Target Text", "Optional identity check.", false, false, ref order);
-        Configure(ExpectedTargetRole, "Expected Target Role", "Optional identity check.", false, false, ref order);
-        Configure(ExpectedTargetId, "Expected Target ID", "Optional identity check.", false, false, ref order);
-        Configure(ExpectedTargetClass, "Expected Target Class", "Optional identity check.", false, false, ref order);
-        Configure(ExpectedAutomationId, "Expected Automation ID", "Optional identity check.", false, false, ref order);
-    }
-}
-
-public sealed class ValidatedGetTextViewModel : ValidatedIdentityActivityViewModelBase
+public sealed class ValidatedGetTextViewModel : ValidatedActivityViewModelBase
 {
     public new DesignInArgument<TextRule> Rule { get; set; } = null!;
     public DesignInArgument<TextRule> AdditionalRule { get; set; } = null!;
@@ -121,12 +96,12 @@ public sealed class ValidatedGetTextViewModel : ValidatedIdentityActivityViewMod
     public ValidatedGetTextViewModel(IDesignServices services) : base(services) { }
     protected override void ConfigureSpecific(ref int order)
     {
-        Configure(Rule, "Text Rule", "Primary validation rule.", false, true, ref order);
-        Configure(AdditionalRule, "Additional Text Rule", "Optional second rule combined with AND semantics.", false, false, ref order);
-        Configure(ExpectedText, "Expected Text", "Value used by exact/contains/prefix/suffix rules.", false, true, ref order);
-        Configure(RegexPattern, "Regex Pattern", "Pattern used by the Regex rule.", false, false, ref order);
-        Configure(WaitForRules, "Wait For Rules", "Treats text-rule mismatch as waitable within retry limits.", false, false, ref order);
-        Configure(Text, "Raw Text", "Unchanged text returned by the target.", false, ref order);
+        Configure(Rule, "Text Rule", "Primary validation applied to the retrieved text. Example: NotEmpty.", false, true, ref order);
+        Configure(AdditionalRule, "Additional Text Rule", "Optional second rule combined with the primary rule using AND semantics. Example: Contains.", false, false, ref order);
+        Configure(ExpectedText, "Expected Text", "Value used by exact, contains, prefix, or suffix rules. Example: Ready.", false, true, ref order);
+        Configure(RegexPattern, "Regex Pattern", "Regular expression used when Text Rule is Regex. Example: ^ORD-[0-9]+$.", false, false, ref order);
+        Configure(WaitForRules, "Wait For Rules", "Retries while text rules are not yet satisfied. Example: true for text that loads asynchronously.", false, false, ref order);
+        Configure(Text, "Raw Text", "Returns the unchanged text read from the target. Example: bind this output to a String variable.", false, ref order);
     }
 }
 
@@ -143,7 +118,6 @@ public sealed class ValidatedTypeIntoViewModel : ValidatedActivityViewModelBase
     public DesignInArgument<bool> IsSecure { get; set; } = null!;
     public DesignInArgument<bool> DisallowEmptyInput { get; set; } = null!;
     public ValidatedTypeIntoViewModel(IDesignServices services) : base(services) { }
-    protected override string TargetSelectorDisplayName => TypeIntoArgumentHelp.SelectorDisplayName;
     protected override string Help(string propertyName, string fallback) => TypeIntoArgumentHelp.Get(propertyName);
     protected override void ConfigureSpecific(ref int order)
     {
@@ -160,14 +134,14 @@ public sealed class ValidatedTypeIntoViewModel : ValidatedActivityViewModelBase
     }
 }
 
-public sealed class ValidatedClickViewModel : ValidatedIdentityActivityViewModelBase
+public sealed class ValidatedClickViewModel : ValidatedActivityViewModelBase
 {
     public DesignInArgument<bool> AllowActionRetry { get; set; } = null!;
     public DesignInArgument<bool> SkipWhenPostConditionAlreadySatisfied { get; set; } = null!;
     public ValidatedClickViewModel(IDesignServices services) : base(services) { }
     protected override void ConfigureSpecific(ref int order)
     {
-        Configure(AllowActionRetry, "Allow Action Retry", "Allows another click only after the postcondition remains false.", false, false, ref order);
-        Configure(SkipWhenPostConditionAlreadySatisfied, "Skip When Outcome Already Satisfied", "Avoids a click when the desired state already exists.", false, false, ref order);
+        Configure(AllowActionRetry, "Allow Action Retry", "Allows another click only after the postcondition remains false. Example: false for a Submit button.", false, false, ref order);
+        Configure(SkipWhenPostConditionAlreadySatisfied, "Skip When Outcome Already Satisfied", "Avoids clicking when the desired postcondition already exists. Example: true for an already-open panel.", false, false, ref order);
     }
 }

@@ -48,7 +48,7 @@ dotnet test tests/UI.Validation.Library.Tests/UI.Validation.Library.Tests.csproj
 dotnet test tests/UI.Validation.Library.IntegrationTests/UI.Validation.Library.IntegrationTests.csproj -c Release --no-build --no-restore
 ```
 
-The packaging project is built first because `ConsumerSmoke` restores version `1.0.0`
+The packaging project is built first because `ConsumerSmoke` restores version `2.0.0`
 from `artifacts/packages`. On a clean checkout, that package does not exist until the
 packaging project has completed once.
 
@@ -63,11 +63,16 @@ Copy-Item artifacts/builder/BuildArtifacts.exe ./BuildArtifacts.exe -Force
 
 ## Output
 
-The generated package should be created here:
+The generated version 2 package is created here:
 
 ```text
-artifacts/packages/Vodafone.Robotics.UI.Validation.Activities.1.0.0.nupkg
+artifacts/packages/Vodafone.Robotics.UI.Validation.Activities.2.0.0.nupkg
 ```
+
+The local feed intentionally retains both `1.0.0` and `2.0.0`. UiPath Studio displays
+both versions in the Version list after the local source is refreshed. Version `2.0.0`
+uses the simplified Target Selector interface; version `1.0.0` remains available for
+existing workflows.
 
 ## Install In UiPath Studio
 
@@ -82,9 +87,9 @@ artifacts/packages/Vodafone.Robotics.UI.Validation.Activities.1.0.0.nupkg
 Verified on October 1, 2026 with .NET SDK `10.0.401`:
 
 ```text
-Package: Vodafone.Robotics.UI.Validation.Activities.1.0.0.nupkg
+Packages: Vodafone.Robotics.UI.Validation.Activities.1.0.0.nupkg and 2.0.0.nupkg
 Build: succeeded with 0 warnings and 0 errors
-Library unit tests: 142 passed, 0 failed, 0 skipped
+Library unit tests: 143 passed, 0 failed, 0 skipped
 Artifact-builder tests: 5 passed, 0 failed, 0 skipped
 Integration test project: completed successfully
 ```

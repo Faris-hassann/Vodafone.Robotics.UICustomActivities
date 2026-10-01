@@ -5,4 +5,6 @@
   <Project Path="tests/UI.Validation.Library.IntegrationTests/UI.Validation.Library.IntegrationTests.csproj" />
   <Project Path="testhost/UI.Validation.TestHost/UI.Validation.TestHost.csproj" />
   <Project Path="samples/ConsumerSmoke/ConsumerSmoke.csproj" />
+  <Project Path="tools/UI.Validation.ArtifactBuilder/UI.Validation.ArtifactBuilder.csproj" />
+  <Project Path="tests/UI.Validation.ArtifactBuilder.Tests/UI.Validation.ArtifactBuilder.Tests.csproj" />
 </Solution>

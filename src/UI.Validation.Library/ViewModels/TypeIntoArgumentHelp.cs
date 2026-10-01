@@ -11,7 +11,7 @@ internal static class TypeIntoArgumentHelp
         ["TargetSelector"] = "Required complete UiPath selector XML for the input control; selector attributes identify the target directly. Example: <wnd app='notepad.exe' /><ctrl automationid='SearchBox' role='editable text' />.",
         ["AllowMultipleMatches"] = "Allows the first selector match to be used when more than one element matches; false fails safely. Example: false.",
         ["RequireVisible"] = "Requires the selected input control to be visible before typing. Example: true.",
-        ["RequireEnabled"] = "Requires the selected input control to be enabled before typing. Example: true.",
+        ["RequireEnabled"] = "Type Into always requires an enabled input control for safe mutation; this shared option cannot disable that rule. Example: leave the default false because Type Into enforces it automatically.",
         ["Mode"] = "Controls whether text replaces, appends to, or clears the current value; the default is Replace. Example: Append.",
         ["InputText"] = "Text written in Replace or Append mode and redacted from logs by default. Example: CUST-001.",
         ["AppendSeparator"] = "Text inserted between the existing value and Input Text in Append mode; the default is empty. Example: a single space.",

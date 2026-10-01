@@ -247,13 +247,13 @@ public sealed class ValidationEngine
     private IUiTarget ResolveWorkTarget(ActivityConfiguration configuration, ExecutionState state, CancellationToken token, bool requireEnabled = false)
     {
         state.Stage = ValidationStage.TargetResolution;
-        Log(configuration, state, ValidationLogLevel.Trace, "TargetSearchStarted", "Resolving Do Work selector.", new Dictionary<string, string> { ["selector"] = SafeLog.Selector(configuration.WorkSelector, configuration.LogFullSelector) });
+        Log(configuration, state, ValidationLogLevel.Trace, "TargetSearchStarted", "Resolving Target Selector.", new Dictionary<string, string> { ["selector"] = SafeLog.Selector(configuration.WorkSelector, configuration.LogFullSelector) });
         var targets = _adapter.Resolve(configuration.WorkSelector, configuration.TimeoutMilliseconds, token);
-        if (targets.Count == 0) throw new UITargetNotFoundException("No target matched the Do Work selector.");
+        if (targets.Count == 0) throw new UITargetNotFoundException("No target matched the Target Selector.");
         if (targets.Count > 1 && !configuration.AllowMultipleMatches)
         {
             foreach (var target in targets) target.Dispose();
-            throw new UITargetAmbiguousException($"Do Work selector matched {targets.Count} targets; exactly one is required.");
+            throw new UITargetAmbiguousException($"Target Selector matched {targets.Count} targets; exactly one is required.");
         }
         var selected = targets[0];
         for (var index = 1; index < targets.Count; index++) targets[index].Dispose();

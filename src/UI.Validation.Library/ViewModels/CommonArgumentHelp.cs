@@ -11,7 +11,7 @@ internal static class CommonArgumentHelp
         ["TargetSelector"] = "Required complete UiPath selector for the element used by the main activity action. Example: <wnd app='app.exe' /><ctrl automationid='Submit' />.",
         ["AllowMultipleMatches"] = "Uses the first match when multiple elements match; false fails safely. Example: false.",
         ["RequireVisible"] = "Requires the selected target to be visible before the action. Example: true.",
-        ["RequireEnabled"] = "Requires the selected target to be enabled before the action. Example: true for buttons and inputs.",
+        ["RequireEnabled"] = "Requires an enabled target when selected; Type Into and Click always enforce this safety rule. Example: enable it for Get Text when disabled controls must be rejected.",
         ["PostConditionSelector"] = "Complete UiPath selector used to verify the outcome after the action. Example: <wnd app='app.exe' /><ctrl name='Saved' />.",
         ["PostConditionKind"] = "Outcome rule evaluated after the action; None disables outcome verification. Example: ElementAppears.",
         ["PostConditionAttribute"] = "Attribute read by attribute-based postconditions. Example: value.",

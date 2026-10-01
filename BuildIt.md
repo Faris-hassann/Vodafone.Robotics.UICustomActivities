@@ -78,16 +78,16 @@ Copy-Item artifacts/builder/BuildArtifacts.exe ./BuildArtifacts.exe -Force
 
 ## Output
 
-The generated version 2 package is created here:
+The current version 2 package is created here:
 
 ```text
-artifacts/packages/Vodafone.Robotics.UI.Validation.Activities.2.0.0.nupkg
+artifacts/packages/Vodafone.Robotics.UI.Validation.Activities.2.0.1.nupkg
 ```
 
-The local feed intentionally retains both `1.0.0` and `2.0.0`. UiPath Studio displays
-both versions in the Version list after the local source is refreshed. Version `2.0.0`
-uses the simplified Target Selector interface; version `1.0.0` remains available for
-existing workflows.
+The local feed intentionally retains `1.0.0`, `2.0.0`, and `2.0.1`. UiPath Studio
+displays all versions after the local source is refreshed. Version `2.0.1` includes the
+Chrome enabled-state parsing fix; earlier versions remain available for existing
+workflows.
 
 ## Install In UiPath Studio
 
@@ -102,9 +102,9 @@ existing workflows.
 Verified on October 1, 2026 with .NET SDK `10.0.401`:
 
 ```text
-Packages: Vodafone.Robotics.UI.Validation.Activities.1.0.0.nupkg and 2.0.0.nupkg
+Packages: 1.0.0, 2.0.0, and 2.0.1
 Build: succeeded with 0 warnings and 0 errors
-Library unit tests: 143 passed, 0 failed, 0 skipped
+Library unit tests: 162 passed, 0 failed, 0 skipped
 Artifact-builder tests: 9 passed, 0 failed, 0 skipped
 Integration test project: completed successfully
 ```

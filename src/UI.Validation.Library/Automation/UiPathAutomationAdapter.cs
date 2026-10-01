@@ -81,22 +81,22 @@ public sealed class UiPathAutomationAdapter : IUiAutomationAdapter
         {
             get
             {
-                try { return Convert.ToBoolean(Element.Get("enabled", true) ?? true, System.Globalization.CultureInfo.InvariantCulture); }
-                catch (ElementOperationException)
+                object? enabledValue = null;
+                try { enabledValue = Element.Get("enabled", true); }
+                catch (ElementOperationException) { }
+
+                if (UiPathAttributeParser.TryGetBoolean(enabledValue, out var enabled))
                 {
-                    try
-                    {
-                        var state = Element.Get("aastate", true)?.ToString() ?? string.Empty;
-                        return !state.Contains("disabled", StringComparison.OrdinalIgnoreCase)
-                            && !state.Contains("unavailable", StringComparison.OrdinalIgnoreCase);
-                    }
-                    catch (ElementOperationException)
-                    {
-                        // Some providers expose neither property. A resolved, visible element remains actionable;
-                        // the actual mutation still has a distinct ActionFailed classification if rejected.
-                        return true;
-                    }
+                    return enabled;
                 }
+
+                object? accessibilityState = null;
+                try { accessibilityState = Element.Get("aastate", true); }
+                catch (ElementOperationException) { }
+
+                // Some providers expose an empty enabled attribute. Fall back to accessibility state;
+                // if neither property is decisive, the action itself remains the final authority.
+                return UiPathAttributeParser.ResolveEnabled(enabledValue, accessibilityState);
             }
         }
         public void Click() => Element.Click(ClickType.CLICK_SINGLE, MouseButton.BTN_LEFT, InputMethod.API);

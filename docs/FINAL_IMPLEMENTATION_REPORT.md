@@ -65,9 +65,9 @@ Clean package consumer restored and built with 0 warnings, 0 errors.
 
 ## Package
 
-- Current file: `artifacts/packages/Vodafone.Robotics.UI.Validation.Activities.2.0.0.nupkg`
-- Retained compatibility file: `artifacts/packages/Vodafone.Robotics.UI.Validation.Activities.1.0.0.nupkg`
-- Version 2 SHA-256: `CFA1E855ADADE241E980E1B8C09E84E9FAB0FF2A80633CCD13B04ED1EE84FC7A`
+- Current file: `artifacts/packages/Vodafone.Robotics.UI.Validation.Activities.2.0.1.nupkg`
+- Retained files: versions `1.0.0` and `2.0.0`
+- Version 2.0.1 SHA-256: `86D2B19829588D7BBACAAA4CE0417911B6DA8337BAADE6E8D8C85A18BF68C2EF`
 - Runtime: modern UiPath Windows / `net6.0-windows7.0`
 - Declared dependencies: `System.Activities.ViewModels 1.20260609.1`, `UiPath.UIAutomation.Activities 24.10.13`
 

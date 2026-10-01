@@ -26,9 +26,9 @@ dotnet build UI.Validation.Library.slnx -c Release --no-restore
 dotnet test tests/UI.Validation.Library.Tests/UI.Validation.Library.Tests.csproj -c Release --no-restore
 ```
 
-The current package is written to `artifacts/packages/Vodafone.Robotics.UI.Validation.Activities.2.0.0.nupkg`.
-The same local feed retains `1.0.0` for existing workflows, so UiPath Studio can offer
-both versions.
+The current package is written to `artifacts/packages/Vodafone.Robotics.UI.Validation.Activities.2.0.1.nupkg`.
+The same local feed retains `1.0.0` and `2.0.0` for existing workflows, so UiPath Studio
+can offer all three versions.
 
 ## Install in UiPath Studio
 
@@ -49,7 +49,7 @@ both versions.
 - `tests/UI.Validation.Library.IntegrationTests` — attended harness and complete-selector catalog.
 - `samples/ConsumerSmoke` — clean package-consumer compilation smoke test.
 
-The current verified baseline is 143 library tests with zero failures/skips, complete traceability for all 108 mandatory scenario IDs in the supplied test pack, and passing deterministic real-UI flows E2E-001 through E2E-005.
+The current verified baseline is 162 library tests with zero failures/skips, complete traceability for all 108 mandatory scenario IDs in the supplied test pack, and passing deterministic real-UI flows E2E-001 through E2E-005.
 
 ## Runtime note
 

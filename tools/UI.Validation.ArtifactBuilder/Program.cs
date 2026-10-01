@@ -9,6 +9,7 @@ internal static class Program
     private const int SdkNotFoundExitCode = 11;
     private const int BuildFailedExitCode = 12;
     private const int ArtifactMissingExitCode = 13;
+    private const int InvalidPackageConfigurationExitCode = 14;
     private const int CancelledExitCode = 130;
 
     public static async Task<int> Main(string[] args)
@@ -40,6 +41,21 @@ internal static class Program
             }
 
             Console.WriteLine($"Repository: {repositoryRoot}");
+
+            PackageMetadata packageMetadata;
+            try
+            {
+                packageMetadata = ArtifactLocator.ReadMetadata(repositoryRoot);
+            }
+            catch (PackageConfigurationException exception)
+            {
+                Console.Error.WriteLine();
+                Console.Error.WriteLine($"ERROR: {exception.Message}");
+                return Finish(InvalidPackageConfigurationExitCode, nonInteractive);
+            }
+
+            Console.WriteLine($"Package:    {packageMetadata.PackageId}");
+            Console.WriteLine($"Version:    {packageMetadata.Version}");
             Console.WriteLine("Checking for a compatible .NET SDK...");
 
             var sdk = DotNetSdkLocator.Find();
@@ -86,7 +102,7 @@ internal static class Program
                 return Finish(BuildFailedExitCode, nonInteractive);
             }
 
-            var packagePath = ArtifactLocator.FindExpectedPackage(repositoryRoot);
+            var packagePath = ArtifactLocator.FindExpectedPackage(repositoryRoot, packageMetadata);
             if (packagePath is null)
             {
                 Console.Error.WriteLine();

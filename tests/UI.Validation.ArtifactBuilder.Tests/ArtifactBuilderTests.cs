@@ -68,6 +68,37 @@ public sealed class ArtifactBuilderTests
         Assert.Equal(3, runner.CallCount);
     }
 
+    [Fact]
+    public void PackageMetadataReadsCanonicalVersionAndBuildsExpectedPath()
+    {
+        using var repository = TemporaryRepository.Create();
+        repository.WritePackageMetadata("2.0.0");
+
+        var metadata = ArtifactLocator.ReadMetadata(repository.Path);
+
+        Assert.Equal("Vodafone.Robotics.UI.Validation.Activities", metadata.PackageId);
+        Assert.Equal("2.0.0", metadata.Version);
+        Assert.EndsWith(
+            "artifacts\\packages\\Vodafone.Robotics.UI.Validation.Activities.2.0.0.nupkg",
+            metadata.GetExpectedPackagePath(repository.Path),
+            StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("2.0")]
+    [InlineData("2.0.0-preview.1")]
+    public void PackageMetadataRejectsMissingOrNonStableVersion(string? version)
+    {
+        using var repository = TemporaryRepository.Create();
+        repository.WritePackageMetadata(version);
+
+        var exception = Assert.Throws<PackageConfigurationException>(
+            () => ArtifactLocator.ReadMetadata(repository.Path));
+
+        Assert.Contains("UiValidationVersion", exception.Message, StringComparison.Ordinal);
+    }
+
     private sealed class FakeCommandRunner(params int[] exitCodes) : ICommandRunner
     {
         private readonly Queue<int> exitCodes = new(exitCodes);
@@ -114,5 +145,18 @@ public sealed class ArtifactBuilderTests
         }
 
         public static new TemporaryRepository Create() => new();
+
+        public void WritePackageMetadata(string? version)
+        {
+            var versionElement = version is null
+                ? string.Empty
+                : $"<UiValidationVersion>{version}</UiValidationVersion>";
+            File.WriteAllText(
+                System.IO.Path.Combine(Path, "Directory.Build.props"),
+                $"<Project><PropertyGroup>{versionElement}</PropertyGroup></Project>");
+            File.WriteAllText(
+                System.IO.Path.Combine(Path, "src", "UI.Validation.Library.Packaging", "UI.Validation.Library.Packaging.csproj"),
+                "<Project><PropertyGroup><PackageId>Vodafone.Robotics.UI.Validation.Activities</PackageId></PropertyGroup></Project>");
+        }
     }
 }

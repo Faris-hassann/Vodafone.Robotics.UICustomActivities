@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0-windows7.0</TargetFramework>
-    <Version>2.0.0</Version>
+    <Version>$(UiValidationVersion)</Version>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <OutputType>Library</OutputType>
     <AssemblyName>UI.Validation.Library</AssemblyName>

@@ -7,10 +7,11 @@ This project is already configured as a .NET library plus a UiPath/NuGet packagi
 Double-click `BuildArtifacts.exe` in the repository root. The launcher automatically:
 
 1. Finds the repository path.
-2. Checks for a .NET 10 or newer SDK.
-3. Restores dependencies and builds the UiPath package and complete solution.
-4. Runs the unit and integration tests.
-5. Opens `artifacts/packages` when the build succeeds.
+2. Reads and validates `UiValidationVersion` from `Directory.Build.props`.
+3. Checks for a .NET 10 or newer SDK.
+4. Restores dependencies and builds the matching UiPath package and complete solution.
+5. Runs the unit and integration tests.
+6. Opens `artifacts/packages` when the build succeeds.
 
 The console remains open so that the result and any build error can be read. Keep the
 EXE somewhere inside the repository if it is moved from the root. The launcher is an
@@ -48,9 +49,23 @@ dotnet test tests/UI.Validation.Library.Tests/UI.Validation.Library.Tests.csproj
 dotnet test tests/UI.Validation.Library.IntegrationTests/UI.Validation.Library.IntegrationTests.csproj -c Release --no-build --no-restore
 ```
 
-The packaging project is built first because `ConsumerSmoke` restores version `2.0.0`
+The packaging project is built first because `ConsumerSmoke` restores the shared
+`UiValidationVersion`
 from `artifacts/packages`. On a clean checkout, that package does not exist until the
 packaging project has completed once.
+
+## Set The Release Version
+
+`Directory.Build.props` is the single source of truth for the library, NuGet package,
+consumer smoke test, and artifact builder. To prepare a future stable release, change
+only this value before running the EXE:
+
+```xml
+<UiValidationVersion>2.0.0</UiValidationVersion>
+```
+
+Use stable `major.minor.patch` format. The launcher stops before building when the value
+is missing or invalid, and it never deletes previously generated package versions.
 
 ## Rebuild The Launcher EXE
 
@@ -90,6 +105,6 @@ Verified on October 1, 2026 with .NET SDK `10.0.401`:
 Packages: Vodafone.Robotics.UI.Validation.Activities.1.0.0.nupkg and 2.0.0.nupkg
 Build: succeeded with 0 warnings and 0 errors
 Library unit tests: 143 passed, 0 failed, 0 skipped
-Artifact-builder tests: 5 passed, 0 failed, 0 skipped
+Artifact-builder tests: 9 passed, 0 failed, 0 skipped
 Integration test project: completed successfully
 ```

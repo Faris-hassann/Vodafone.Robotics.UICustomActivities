@@ -5,7 +5,7 @@
     <RestoreAdditionalProjectSources>$(MSBuildThisFileDirectory)..\..\artifacts\packages</RestoreAdditionalProjectSources>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Vodafone.Robotics.UI.Validation.Activities" Version="2.0.0" />
+    <PackageReference Include="Vodafone.Robotics.UI.Validation.Activities" Version="$(UiValidationVersion)" />
     <PackageReference Include="UiPath.Activities.Api" Version="24.10.1" PrivateAssets="all" />
     <PackageReference Include="UiPath.Workflow" Version="6.0.0-20240401-07" PrivateAssets="all" />
   </ItemGroup>

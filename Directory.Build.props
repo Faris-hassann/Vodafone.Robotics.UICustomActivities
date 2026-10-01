@@ -1,5 +1,6 @@
 <Project>
   <PropertyGroup>
+    <UiValidationVersion>2.0.0</UiValidationVersion>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
